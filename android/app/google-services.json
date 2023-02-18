@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "351752559333",
+    "project_id": "fier-master",
+    "storage_bucket": "fier-master.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351752559333:android:d7c01d2e33cfb578cf920c",
+        "android_client_info": {
+          "package_name": "com.example.fire_base_"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "351752559333-ov4rc99vgk02mfpf4inb1i98e7ctsdq5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDORIGRYcn3AlUMUoszKuE024opXIyIrUc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "351752559333-ov4rc99vgk02mfpf4inb1i98e7ctsdq5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
