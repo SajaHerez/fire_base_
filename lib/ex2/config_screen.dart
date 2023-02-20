@@ -10,6 +10,9 @@ class CongigScreen extends StatefulWidget {
 class _CongigScreenState extends State<CongigScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(),
+    );
   }
 }
