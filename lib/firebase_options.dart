@@ -67,7 +67,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '351752559333',
     projectId: 'fier-master',
     storageBucket: 'fier-master.appspot.com',
-    iosClientId: '351752559333-ic1dgdgch00gu5iqm4qv6881nivkasnf.apps.googleusercontent.com',
+    iosClientId:
+        '351752559333-ic1dgdgch00gu5iqm4qv6881nivkasnf.apps.googleusercontent.com',
     iosBundleId: 'com.example.fireBase',
   );
 
@@ -77,7 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '351752559333',
     projectId: 'fier-master',
     storageBucket: 'fier-master.appspot.com',
-    iosClientId: '351752559333-ic1dgdgch00gu5iqm4qv6881nivkasnf.apps.googleusercontent.com',
+    iosClientId:
+        '351752559333-ic1dgdgch00gu5iqm4qv6881nivkasnf.apps.googleusercontent.com',
     iosBundleId: 'com.example.fireBase',
   );
 }
