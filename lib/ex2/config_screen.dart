@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../ex1/home_page.dart';
 import 'language_services.dart';
 
@@ -13,13 +12,25 @@ class _CongigScreenState extends State<CongigScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController likesController = TextEditingController();
   final LangServices langServ = LangServices();
+  String langname = '';
+  String likes = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Cloud Firestore'),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
+          if (langname.isNotEmpty)
+            Text(
+              'LanguageName: $langname  , Likes :$likes',
+              style: const TextStyle(fontSize: 25),
+            ),
+          const SizedBox(
+            height: 20,
+          ),
           TextField(
             decoration: const InputDecoration(
               labelText: 'name',
@@ -66,7 +77,13 @@ class _CongigScreenState extends State<CongigScreen> {
             children: [
               ElevatedButton(
                   onPressed: () async {
-                    await langServ.getLang(nameController.text);
+                    final lang = await langServ.getLang(nameController.text);
+                    setState(() {
+                      langname = lang.docs.first['name'];
+                      print(lang.docs.first['name']);
+                      likes = lang.docs.first['likes'].toString();
+                      print(lang.docs.first['likes']);
+                    });
                   },
                   child: const Text('read one')),
               ElevatedButton(
