@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LangServices {
-  LangServices._();
+  LangServices();
   final langStore = FirebaseFirestore.instance.collection('languages');
 
   Future<void> addLanguage(String name, int likes) async {
     final langDoc = await langStore.doc();
     String id = langDoc.id;
     langDoc
-        .set({'name': name, 'likes': likes, id: id})
+        .set({'name': name, 'likes': likes, "id": id})
         .then((value) => print("Language Added"))
         .catchError((error) => print("Failed to add Language: $error"));
   }
@@ -30,9 +30,18 @@ class LangServices {
   }
 
   Future<String> getID(String name) async {
+    String id = '';
     final lang =
         await langStore.where('name', arrayContainsAny: [name]).limit(1).get();
-    String id = lang.docs.first.id;
+        lang.docs.map((e) => id = e.id);
+
     return id;
+  }
+
+  Future<QuerySnapshot> getLang(String name) async {
+    final lang =
+        await langStore.where('name', arrayContainsAny: [name]).limit(1).get();
+
+    return lang;
   }
 }
