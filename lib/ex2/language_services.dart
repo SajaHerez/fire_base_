@@ -21,6 +21,7 @@ class LangServices {
 
   Future<void> updateLanguage(String name, int likes) async {
     String id = await getID(name);
+    print('the ID:$id');
     await langStore.doc(id).update({"likes": likes});
   }
 
@@ -31,17 +32,13 @@ class LangServices {
 
   Future<String> getID(String name) async {
     String id = '';
-    final lang =
-        await langStore.where('name', arrayContainsAny: [name]).limit(1).get();
-        lang.docs.map((e) => id = e.id);
-
+    final lang = await langStore.where('name', isEqualTo: name).limit(1).get();
+    id = lang.docs.first.id;
     return id;
   }
 
   Future<QuerySnapshot> getLang(String name) async {
-    final lang =
-        await langStore.where('name', arrayContainsAny: [name]).limit(1).get();
-
+    final lang = await langStore.where('name', isEqualTo: name).limit(1).get();
     return lang;
   }
 }
