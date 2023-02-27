@@ -41,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Text("Total likes: ${data.docs[index].get('likes')}"),
                     trailing: IconButton(
                       icon: const Icon(Icons.thumb_up),
-                      onPressed: () {
+                      onPressed: ()async {
                         FirebaseFirestore.instance
                             .runTransaction((transaction) async {
 // 1.
