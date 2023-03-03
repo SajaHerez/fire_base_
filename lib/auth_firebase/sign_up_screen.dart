@@ -14,7 +14,10 @@ class SignUpPage extends StatelessWidget {
         const SizedBox(
           height: 40,
         ),
-        const Text('SignUp to your Firebase account'),
+        const Text(
+          'SignUp to your Firebase account',
+          style: TextStyle(fontSize: 25),
+        ),
         const SizedBox(
           height: 20,
         ),
@@ -36,11 +39,13 @@ class SignUpPage extends StatelessWidget {
         ),
         ElevatedButton(onPressed: () {}, child: const Text('login')),
         const SizedBox(
-          height: 10,
+          height: 30,
         ),
         InkWell(
-          onTap: () {},
-          child: const Text("click here to Sign Up!!"),
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Text("click here to Sign In!!"),
         )
       ]),
     );

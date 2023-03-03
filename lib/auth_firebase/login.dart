@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:fire_base_/auth_firebase/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,7 +17,10 @@ class LoginPage extends StatelessWidget {
         const SizedBox(
           height: 30,
         ),
-        const Text('Sign in to your Firebase account'),
+        const Text(
+          'Sign in to your Firebase account',
+          style: TextStyle(fontSize: 25),
+        ),
         const SizedBox(
           height: 20,
         ),
@@ -36,10 +42,13 @@ class LoginPage extends StatelessWidget {
         ),
         ElevatedButton(onPressed: () {}, child: const Text('login')),
         const SizedBox(
-          height: 10,
+          height: 20,
         ),
         InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: ((context) => SignUpPage())));
+          },
           child: const Text("click here to Sign Up!!"),
         )
       ]),
