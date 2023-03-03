@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class LoginPage extends StatelessWidget {
+class SignUpPage extends StatelessWidget {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   @override
@@ -12,9 +12,9 @@ class LoginPage extends StatelessWidget {
       ),
       body: Column(children: [
         const SizedBox(
-          height: 30,
+          height: 40,
         ),
-        const Text('Sign in to your Firebase account'),
+        const Text('SignUp to your Firebase account'),
         const SizedBox(
           height: 20,
         ),

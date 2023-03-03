@@ -47,12 +47,14 @@ class _MyHomePageState extends State<MyHomePage> {
 // 1.
                           final secureSnapshot =
                               await transaction.get(data.docs[index].reference);
+                              if(secureSnapshot.exists){
 // Getting the current likes count
                           final int currentLikes =
                               secureSnapshot.get("likes") as int;
 // 2.
                           transaction.update(secureSnapshot.reference,
                               {"likes": currentLikes + 1});
+                              }
                         });
                       },
                     ),
