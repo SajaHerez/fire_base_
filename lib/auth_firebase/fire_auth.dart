@@ -28,7 +28,7 @@ class FireAuth {
     return user;
   }
 
-  static Future<User?> loginUsingEmailPassword({
+   Future<User?> loginUsingEmailPassword({
     required String email,
     required String password,
     required BuildContext context,
@@ -49,7 +49,7 @@ class FireAuth {
     return user;
   }
 
-  static Future<User?> refreshUser(User user) async {
+   Future<User?> refreshUser(User user) async {
   FirebaseAuth auth = FirebaseAuth.instance;
   await user.reload();
   User? refreshedUser = auth.currentUser;

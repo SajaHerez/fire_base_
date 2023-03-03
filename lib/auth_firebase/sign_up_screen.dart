@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'auth_controller.dart';
+
 class SignUpPage extends StatelessWidget {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController name = TextEditingController();
+  AuthController authController = AuthController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +16,7 @@ class SignUpPage extends StatelessWidget {
       ),
       body: Column(children: [
         const SizedBox(
-          height: 40,
+          height: 35,
         ),
         const Text(
           'SignUp to your Firebase account',
@@ -22,24 +26,40 @@ class SignUpPage extends StatelessWidget {
           height: 20,
         ),
         TextFormField(
+          keyboardType: TextInputType.text,
+          decoration: const InputDecoration(label: Text('UserName')),
+          controller: name,
+        ),
+        const SizedBox(
+          height: 18,
+        ),
+        TextFormField(
           keyboardType: TextInputType.emailAddress,
           decoration: const InputDecoration(label: Text('Email')),
           controller: email,
         ),
         const SizedBox(
-          height: 20,
+          height: 18,
         ),
         TextFormField(
           keyboardType: TextInputType.visiblePassword,
           decoration: const InputDecoration(label: Text('Password')),
-          controller: email,
+          controller: password,
         ),
         const SizedBox(
           height: 30,
         ),
-        ElevatedButton(onPressed: () {}, child: const Text('login')),
+        ElevatedButton(
+            onPressed: () async {
+              final user = await authController.register(
+                  name: name.text,
+                  email: email.text,
+                  password: password.text,
+                  context: context);
+            },
+            child: const Text('SignUp')),
         const SizedBox(
-          height: 30,
+          height: 20,
         ),
         InkWell(
           onTap: () {

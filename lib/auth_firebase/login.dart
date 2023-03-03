@@ -4,9 +4,12 @@ import 'package:fire_base_/auth_firebase/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'auth_controller.dart';
+
 class LoginPage extends StatelessWidget {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  AuthController authController = AuthController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,12 +38,17 @@ class LoginPage extends StatelessWidget {
         TextFormField(
           keyboardType: TextInputType.visiblePassword,
           decoration: const InputDecoration(label: Text('Password')),
-          controller: email,
+          controller: password,
         ),
         const SizedBox(
           height: 30,
         ),
-        ElevatedButton(onPressed: () {}, child: const Text('login')),
+        ElevatedButton(
+            onPressed: () async {
+              final user=await authController.Login(
+                  email: email.text, password: password.text, context: context);
+            },
+            child: const Text('login')),
         const SizedBox(
           height: 20,
         ),
