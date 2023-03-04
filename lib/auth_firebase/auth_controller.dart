@@ -6,6 +6,7 @@ import 'home_screen.dart';
 
 class AuthController {
   FirebaseAuth auth = FirebaseAuth.instance;
+
   Future<User?> register({
     required String name,
     required String email,
@@ -16,10 +17,15 @@ class AuthController {
     try {
       final creUser = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      if (!auth.currentUser!.emailVerified) {
+        await emailVerfication(email);
+      }
+
       user = creUser.user;
       user?.updateDisplayName(name);
       user?.reload();
       user = auth.currentUser;
+
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: ((context) => const HomeScreen())));
     } on FirebaseAuthException catch (error) {
@@ -86,7 +92,11 @@ class AuthController {
     return user;
   }
 
-  logout() async{
-   await auth.signOut();
+  Future<void> logout() async {
+    await auth.signOut();
+  }
+
+  Future<void> emailVerfication(String email) async {
+    await auth.currentUser?.sendEmailVerification();
   }
 }
