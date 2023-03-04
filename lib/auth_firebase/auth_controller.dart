@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,7 @@ import 'home_screen.dart';
 
 class AuthController {
   FirebaseAuth auth = FirebaseAuth.instance;
-
+  Timer? timer;
   Future<User?> register({
     required String name,
     required String email,
@@ -25,9 +27,12 @@ class AuthController {
       user?.updateDisplayName(name);
       user?.reload();
       user = auth.currentUser;
-
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: ((context) => const HomeScreen())));
+      if (auth.currentUser!.emailVerified) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: ((context) => const HomeScreen())));
+      } else {
+        print('email is not Verified');
+      }
     } on FirebaseAuthException catch (error) {
       switch (error.code) {
         case "ERROR_OPERATION_NOT_ALLOWED":
@@ -98,5 +103,15 @@ class AuthController {
 
   Future<void> emailVerfication(String email) async {
     await auth.currentUser?.sendEmailVerification();
+    Timer.periodic(Duration(seconds: 3), (_) => checkEmailValidity());
+  }
+
+  Future<bool> checkEmailValidity() async {
+    await auth.currentUser?.reload();
+    bool isEmailV = auth.currentUser?.emailVerified ?? false;
+    if (isEmailV) {
+      timer?.cancel();
+    }
+    return isEmailV;
   }
 }
