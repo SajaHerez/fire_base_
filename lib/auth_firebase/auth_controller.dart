@@ -133,4 +133,33 @@ class AuthController {
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
+
+Future<void> signInWithEmailAndLink(String email) async {
+ 
+  return await auth.sendSignInWithEmailLink(
+    email: email,
+    url: 'https://flutterauth.page.link/',
+    handleCodeInApp: true,
+    iOSBundleID: 'com.google.firebase.flutterauth',
+    androidPackageName: 'com.google.firebase.flutterauth',
+    androidInstallIfNotAvailable: true,
+    androidMinimumVersion: "1",
+  );
+}
+   Future<void> getInitialLink() async {
+ 
+   final PendingDynamicLinkData data =
+    await FirebaseDynamicLinks.instance.getInitialLink();
+    if( data?.link != null ) {
+      handleLink(data?.link);
+    }
+    FirebaseDynamicLinks.instance.onLink(
+        onSuccess: (PendingDynamicLinkData dynamicLink) async {
+          final Uri deepLink = dynamicLink?.link;
+          handleLink(deepLink);
+        }, onError: (OnLinkErrorException e) async {
+      print('onLinkError');
+      print(e.message);
+    });
+   }
 }
