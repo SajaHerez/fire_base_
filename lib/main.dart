@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'auth_firebase/login.dart';
+import 'auth_firebase/sign_up_screen.dart';
 import 'ex1/my_home.dart';
 import 'ex2/config_screen.dart';
 import 'firebase_options.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark(
           // primarySwatch: Colors.blue,
           ),
-      home: LoginPage(),
+      home: SignUpPage(),
     );
   }
 }

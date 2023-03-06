@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'auth_controller.dart';
+import 'home_screen.dart';
 
 class SignUpPage extends StatelessWidget {
   TextEditingController email = TextEditingController();
@@ -58,6 +59,17 @@ class SignUpPage extends StatelessWidget {
                   context: context);
             },
             child: const Text('SignUp')),
+        const SizedBox(
+          height: 20,
+        ),
+        ElevatedButton(
+            onPressed: () async {
+              final user = await authController.signInWithGoogle();
+              print(user);
+              Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: ((context) => const HomeScreen())));
+            },
+            child: const Text('Sign In With Google Account')),
         const SizedBox(
           height: 20,
         ),
