@@ -151,7 +151,7 @@ Future<void> signInWithEmailAndLink(String email) async {
    final PendingDynamicLinkData data =
     await FirebaseDynamicLinks.instance.getInitialLink();
     if( data?.link != null ) {
-      handleLink(data?.link);
+     // handleLink(data?.link);
     }
     FirebaseDynamicLinks.instance.onLink(
         onSuccess: (PendingDynamicLinkData dynamicLink) async {
@@ -162,4 +162,32 @@ Future<void> signInWithEmailAndLink(String email) async {
       print(e.message);
     });
    }
+
+
 }
+
+
+// void handleLink(Uri link) async {
+//   if (link != null) {
+//     final FirebaseUser user = (await _auth.signInWithEmailAndLink(
+//       email: _userEmail,
+//       link: link.toString(),
+//     ))
+//         .user;
+//     if (user != null) {
+//       setState(() {
+//         _userID = user.uid;
+//         _success = true;
+//     });
+//     } else {
+//     setState(() {
+//         _success = false;
+//       });
+//     }
+//   } else {
+//     setState(() {
+//       _success = false;
+//     });
+//   }
+//   setState(() {});
+// }
