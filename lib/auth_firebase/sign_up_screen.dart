@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'auth_controller.dart';
 import 'home_screen.dart';
+import 'login.dart';
 
 class SignUpPage extends StatelessWidget {
   TextEditingController email = TextEditingController();
@@ -66,8 +67,10 @@ class SignUpPage extends StatelessWidget {
             onPressed: () async {
               final user = await authController.signInWithGoogle();
               print(user);
-              Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: ((context) => const HomeScreen())));
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) => const HomeScreen())));
             },
             child: const Text('Sign In With Google Account')),
         const SizedBox(
@@ -75,7 +78,8 @@ class SignUpPage extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: ((context) => LoginPage())));
           },
           child: const Text("click here to Sign In!!"),
         )

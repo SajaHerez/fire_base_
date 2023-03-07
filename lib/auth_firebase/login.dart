@@ -1,10 +1,9 @@
-import 'dart:ui';
-
 import 'package:fire_base_/auth_firebase/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'auth_controller.dart';
+import 'email_page.dart';
 
 class LoginPage extends StatelessWidget {
   TextEditingController email = TextEditingController();
@@ -45,7 +44,7 @@ class LoginPage extends StatelessWidget {
         ),
         ElevatedButton(
             onPressed: () async {
-              final user=await authController.Login(
+              await authController.Login(
                   email: email.text, password: password.text, context: context);
             },
             child: const Text('login')),
@@ -58,6 +57,16 @@ class LoginPage extends StatelessWidget {
                 MaterialPageRoute(builder: ((context) => SignUpPage())));
           },
           child: const Text("click here to Sign Up!!"),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: ((context) => EmailLinkPage())));
+          },
+          child: const Text("click here to Sign in with Email !!"),
         )
       ]),
     );
