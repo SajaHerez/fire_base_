@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fire_base_/auth_firebase/otp_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
@@ -133,6 +134,46 @@ class AuthController {
 
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<void> verifyPhoneNumber(String phoneNumber, context) async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: phoneNumber,
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationFailed: (FirebaseAuthException e) {
+        if (e.code == 'invalid-phone-number') {
+          print('The provided phone number is not valid.');
+        }
+        print("error verificationFailed::::: ${e.message}");
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        print("codeSent   ::::: $resendToken");
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: ((context) => OTPScreen(
+                      verificationId: verificationId,
+                    ))));
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        print(verificationId);
+      },
+    );
+  }
+
+  Future<void> signInWithPhoneNumber(
+      String smsCode, String verificationId, context) async {
+    // Create a PhoneAuthCredential with the code
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId, smsCode: smsCode);
+    try {
+      // Sign the user in (or link) with the credential
+      await auth.signInWithCredential(credential);
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: ((context) => const HomeScreen())));
+    } catch (e) {
+      print("error massage :::: ${e.toString()}");
+    }
   }
 
   Future<void> signInWithEmailAndLink(String email) async {

@@ -1,3 +1,4 @@
+import 'package:fire_base_/auth_firebase/phone_auth.dart';
 import 'package:fire_base_/auth_firebase/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -67,6 +68,16 @@ class LoginPage extends StatelessWidget {
                 MaterialPageRoute(builder: ((context) => EmailLinkPage())));
           },
           child: const Text("click here to Sign in with Email !!"),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: ((context) => PhonAuth())));
+          },
+          child: const Text("click here to Sign in with Phone number  !!"),
         )
       ]),
     );

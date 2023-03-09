@@ -5,8 +5,10 @@ import 'package:flutter/services.dart';
 import 'auth_controller.dart';
 import 'email_page.dart';
 
-class PhonAuth extends StatelessWidget {
-  TextEditingController phone = TextEditingController();
+class OTPScreen extends StatelessWidget {
+  OTPScreen({super.key, required this.verificationId});
+  final String verificationId;
+  TextEditingController otp = TextEditingController();
   AuthController authController = AuthController();
   @override
   Widget build(BuildContext context) {
@@ -19,16 +21,16 @@ class PhonAuth extends StatelessWidget {
           height: 30,
         ),
         const Text(
-          'Enter your Phone Number',
+          'Enter OTP Code',
           style: TextStyle(fontSize: 25),
         ),
         const SizedBox(
           height: 20,
         ),
         TextFormField(
-          keyboardType: TextInputType.phone,
-          decoration: const InputDecoration(label: Text('phone')),
-          controller: phone,
+          keyboardType: TextInputType.number,
+          decoration: const InputDecoration(label: Text('OTP')),
+          controller: otp,
         ),
         const SizedBox(
           height: 20,
@@ -38,11 +40,10 @@ class PhonAuth extends StatelessWidget {
         ),
         ElevatedButton(
             onPressed: () async {
-              await authController.verifyPhoneNumber(
-                phone.text,context
-              );
+              await authController.signInWithPhoneNumber(
+                  otp.text, verificationId, context);
             },
-            child: const Text('send code ')),
+            child: const Text('send')),
         const SizedBox(
           height: 20,
         ),
