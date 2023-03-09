@@ -136,76 +136,129 @@ class AuthController {
   }
 
   Future<void> signInWithEmailAndLink(String email) async {
+    print(email);
     return await auth
         .sendSignInLinkToEmail(
             email: email,
             actionCodeSettings: ActionCodeSettings(
-              url: "https://crnn.page.link/",
+              url: "https://crnn.page.link/iDzQ?email=$email",
               handleCodeInApp: true,
               androidPackageName: "com.example.fire_base_",
               androidMinimumVersion: "1",
             ))
         .then((value) {
       print("email sent");
+    }).catchError((e) {
+      print("error in sending email");
     });
   }
 
-  Future<void> getInitialLink(String email, context) async {
+  Future<void> retrieveDynamicLinkAndSignIn(context,
+      {bool fromColdState = false}) async {
     try {
-      final PendingDynamicLinkData? data =
-          await FirebaseDynamicLinks.instance.getInitialLink();
-      if (data?.link != null) {
-        handleLink(data?.link, email, context);
+      PendingDynamicLinkData? dynamicLinkData;
+      if (fromColdState) {
+        dynamicLinkData = await FirebaseDynamicLinks.instance.getInitialLink();
         print(
-            'here getInitialLink function  ::::::::::::::::::::::::::::::::::::::::::::::::::::');
+            ' IF of fromColdState ================================================');
+      } else {
+        dynamicLinkData = await FirebaseDynamicLinks.instance.onLink.first;
         print(
-            'here getInitialLink function  ::::::::::::::::::::::::::::::::::::::::::::::::::::');
-        print(
-            'here getInitialLink function  ::::::::::::::::::::::::::::::::::::::::::::::::::::');
+            ' else of fromColdState ================================================');
       }
-      Stream<PendingDynamicLinkData> stream =
-          FirebaseDynamicLinks.instance.onLink;
-      stream.listen((dynamicLink) {
-        final Uri deepLink = dynamicLink.link;
-        handleLink(deepLink, email, context);
+      if (dynamicLinkData == null) {
         print(
-            'here getInitialLink function ===========================================:');
+            ' dynamicLinkData  is null / no credentials were found  **********************************************');
+      }
+      bool validLink =
+          auth.isSignInWithEmailLink(dynamicLinkData!.link.toString());
+      if (validLink) {
+        //get user email address fromthe continueUrl
+        final continueUrl =
+            dynamicLinkData.link.queryParameters["continueUrl"] ?? "";
         print(
-            'here getInitialLink function  =============================================');
+            "$continueUrl [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
+        final email = Uri.parse(continueUrl).queryParameters['email'] ?? "";
         print(
-            'here getInitialLink function  ===============================================:');
-      }, onError: (error) {
-        print('onLinkError');
-        print(error.message);
-      });
+            "$email [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
+
+        final userCredential = await auth.signInWithEmailLink(
+            email: email, emailLink: dynamicLinkData.link.toString());
+
+        if (userCredential.user != null) {
+          print(
+              "Sign IN successfully :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: ((context) => const HomeScreen())));
+        } else {
+          print(
+              "Not able to SignIN :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+        }
+      } else {
+        print(
+            "Link is Not valid :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+      }
+
+      // print(
+      //     'here getInitialLink function 1111111111111  ::::::::::::::::::::::::::::::::::::::::::::::::::::');
+      // final PendingDynamicLinkData? data =
+      //     await FirebaseDynamicLinks.instance.getInitialLink();
+      // if (data?.link != null) {
+      //   handleLink(data?.link, email, context);
+      //   print(
+      //       'here getInitialLink function 2222222222222 ::::::::::::::::::::::::::::::::::::::::::::::::::::');
+      //   print(
+      //       'here getInitialLink function    ::::::::::::::::::::::::::::::::::::::::::::::::::::');
+      //   print(
+      //       'here getInitialLink function  ::::::::::::::::::::::::::::::::::::::::::::::::::::');
+      // }
+      // print(
+      //     'here getInitialLink function3333333333333 ===========================================:');
+      // Stream<PendingDynamicLinkData> stream =
+      //     FirebaseDynamicLinks.instance.onLink;
+      // stream.listen((dynamicLink) {
+      //   final Uri deepLink = dynamicLink.link;
+      //   handleLink(deepLink, email, context);
+
+      //   print(
+      //       'here getInitialLink function  =============================================');
+      //   print(
+      //       'here getInitialLink function  ===============================================:');
+      // }, onDone: () {
+      //   print(
+      //       'here getInitialLink function  Done section bro ===============================================:');
+      // }, onError: (error) {
+      //   print('onLinkError');
+      //   print(error.message);
+      // });
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> handleLink(Uri? link, userEmail, context) async {
-    print(
-        'here handleLink function  ******************************************');
-    print(
-        'herehandleLink function  **********************************************:');
-    if (link != null) {
-      print(userEmail);
-      final UserCredential user =
-          await FirebaseAuth.instance.signInWithEmailLink(
-        email: userEmail,
-        emailLink: link.toString(),
-      );
-      if (user.credential != null) {
-        print(
-            'herehandleLink function  before navigation **********************************************:');
-        print(user.credential!.signInMethod);
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: ((context) => const HomeScreen())));
-        print(
-            'herehandleLink function  after navigation **********************************************:');
-      }
-    } else {
-      print("link is null");
-    }
-  }
+  // Future<void> handleLink(Uri? link, userEmail, context) async {
+  //   print(
+  //       'here handleLink function  ******************************************');
+  //   print(
+  //       'herehandleLink function  **********************************************:');
+  //   if (link != null) {
+  //     print(userEmail);
+  //     final UserCredential user =
+  //         await FirebaseAuth.instance.signInWithEmailLink(
+  //       email: userEmail,
+  //       emailLink: link.toString(),
+  //     );
+  //     if (user.credential != null) {
+  //       print(
+  //           'herehandleLink function  before navigation **********************************************:');
+  //       print(user.credential!.signInMethod);
+  //       Navigator.pushReplacement(context,
+  //           MaterialPageRoute(builder: ((context) => const HomeScreen())));
+  //       print(
+  //           'herehandleLink function  after navigation **********************************************:');
+  //     }
+  //   } else {
+  //     print("link is null");
+  //   }
+  // }
 }

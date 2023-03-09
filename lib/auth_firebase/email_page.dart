@@ -18,13 +18,44 @@ class _EmailLinkPageState extends State<EmailLinkPage>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    authController.retrieveDynamicLinkAndSignIn(context, fromColdState: true);
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
+    print(
+        '      didChangeAppLifecycleState   11111111      ::::::::::::::::::::::::::::::::::::::::::::::::::::');
     if (state == AppLifecycleState.resumed) {
-      authController.getInitialLink(email.text, context);
+      print(
+          '      didChangeAppLifecycleState  2222222222 inside if       ::::::::::::::::::::::::::::::::::::::::::::::::::::');
+
+      authController.retrieveDynamicLinkAndSignIn(context,
+          fromColdState: false);
+      print(
+          '      didChangeAppLifecycleState  333333333333333333 inside if       ::::::::::::::::::::::::::::::::::::::::::::::::::::');
     }
+  }
+
+  @override
+  Future<void> onInit() async {
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void onClose() {
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void deactivate() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.deactivate();
   }
 
   @override
