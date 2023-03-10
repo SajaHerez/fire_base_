@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../Cloud Messaging/messaging_service.dart';
 import 'auth_controller.dart';
 import 'home_screen.dart';
 import 'login.dart';
@@ -12,6 +13,7 @@ class SignUpPage extends StatelessWidget {
   AuthController authController = AuthController();
   @override
   Widget build(BuildContext context) {
+    MessagingService.getMassageOnTermintedAndData(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Firebase Authentication'),
