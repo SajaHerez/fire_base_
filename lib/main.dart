@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'Cloud Messaging/local_notification_service.dart';
 import 'Cloud Messaging/messaging_service.dart';
 import 'auth_firebase/home_test.dart';
 import 'auth_firebase/login_test.dart';
@@ -22,6 +23,7 @@ Future<void> getMassageOnBackgroundAndData(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  LocalNotificationService.initialize();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

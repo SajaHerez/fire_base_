@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../auth_firebase/login.dart';
+import 'local_notification_service.dart';
 
 class MessagingService {
   //working when app  in foreground
@@ -15,6 +16,7 @@ class MessagingService {
         print(
             'foreground Message also contained a notification: ${message.notification}');
       }
+      LocalNotificationService.showHeadupNotifications(message);
     });
   }
 
